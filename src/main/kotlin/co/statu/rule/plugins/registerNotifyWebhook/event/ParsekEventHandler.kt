@@ -18,7 +18,8 @@ class ParsekEventHandler(
             configManager,
             registerNotifyWebhookPlugin,
             RegisterNotifyWebhookConfig::class.java,
-            listOf()
+            listOf(),
+            listOf("register-notify-webhook")
         )
 
         registerNotifyWebhookPlugin.pluginBeanContext.beanFactory.registerSingleton(
