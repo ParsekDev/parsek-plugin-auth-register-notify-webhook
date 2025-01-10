@@ -1,6 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    kotlin("jvm") version "1.9.20"
-    kotlin("kapt") version "1.9.20"
+    kotlin("jvm") version "2.0.21"
+    kotlin("kapt") version "2.0.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     `maven-publish`
 }
@@ -27,9 +29,9 @@ dependencies {
         compileOnly(project(mapOf("path" to ":plugins:parsek-plugin-auth")))
         compileOnly(project(mapOf("path" to ":plugins:parsek-plugin-database")))
     } else {
-        compileOnly("com.github.StatuParsek:Parsek:main-SNAPSHOT")
-        compileOnly("com.github.StatuParsek:parsek-plugin-auth:v2.4.2")
-        compileOnly("com.github.StatuParsek:parsek-plugin-database:v1.2.1")
+        compileOnly("com.github.parsekdev:Parsek:v1.0.0-beta.7")
+        compileOnly("com.github.parsekdev:parsek-plugin-auth:v1.0.0-dev.1")
+        compileOnly("com.github.parsekdev:parsek-plugin-database:v1.0.0-dev.1")
     }
 
     compileOnly(kotlin("stdlib-jdk8"))
@@ -115,4 +117,29 @@ publishing {
             }
         }
     }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+
+    // Use Java 21 for compilation
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+kotlin {
+    jvmToolchain(21) // Ensure Kotlin uses the Java 21 toolchain
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
 }

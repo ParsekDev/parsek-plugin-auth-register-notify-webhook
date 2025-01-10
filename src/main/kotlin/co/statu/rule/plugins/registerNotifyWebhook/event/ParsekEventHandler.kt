@@ -15,11 +15,8 @@ class ParsekEventHandler(
 ) : CoreEventListener {
     override suspend fun onConfigManagerReady(configManager: ConfigManager) {
         val pluginConfigManager = PluginConfigManager(
-            configManager,
             registerNotifyWebhookPlugin,
             RegisterNotifyWebhookConfig::class.java,
-            listOf(),
-            listOf("register-notify-webhook")
         )
 
         registerNotifyWebhookPlugin.pluginBeanContext.beanFactory.registerSingleton(
